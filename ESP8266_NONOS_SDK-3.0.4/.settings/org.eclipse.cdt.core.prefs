@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.605424603/COMPILE/delimiter=;
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.605424603/COMPILE/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.605424603/COMPILE/value=gcc
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.605424603/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.605424603/appendContributed=true
