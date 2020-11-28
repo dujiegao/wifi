@@ -109,7 +109,6 @@ void wifiConnectCb(uint8_t status)
         os_timer_disarm(&sntp_timer);
         os_timer_setfn(&sntp_timer, (os_timer_func_t *)sntpfn, NULL);
         os_timer_arm(&sntp_timer, 1000, 1);//1s
-        ota_start_Upgrade(ip, HTTP_PORT,HTTP_PATH);
 		INFO("wifiConnectCb\r\n");
     } else {
           MQTT_Disconnect(&mqttClient);
@@ -353,11 +352,11 @@ init_done_cb_init(void) {
 void user_init(void)
 {
 	
-    //uart_init(BIT_RATE_115200, BIT_RATE_115200);
-    //os_delay_us(60000);
-#if 0
+    uart_init_2(BIT_RATE_115200,BIT_RATE_74880);
+    os_delay_us(60000);
+#if 1
     CFG_Load();
-	os_printf("\t Project:\t%s\r\n", PRE_VERSION);//项目名称可带版本号测试观察
+	//os_printf("\t Project:\t%s\r\n", PRE_VERSION);//项目名称可带版本号测试观察
     os_printf("\t SDK version:\t%s", system_get_sdk_version());//SDK版本
     os_printf("\r\n\tuser bin:%d\r\n", system_upgrade_userbin_check());
     INFO("[IMALIUBO] system_get_free_heap_size=%d\r\n",system_get_free_heap_size());
@@ -374,8 +373,8 @@ void user_init(void)
     MQTT_OnPublished(&mqttClient, mqttPublishedCb);
     MQTT_OnData(&mqttClient, mqttDataCb);
     WIFI_Connect(sysCfg.sta_ssid, sysCfg.sta_pwd, wifiConnectCb);
-#endif
-	
+#else	
 	system_init_done_cb(init_done_cb_init);
+#endif
     INFO("\r\nSystem started ...\r\n");
 }
