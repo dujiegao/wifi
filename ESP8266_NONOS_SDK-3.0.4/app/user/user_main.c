@@ -29,7 +29,6 @@
 */
 
 #include "ets_sys.h"
-#include "driver/uart.h"
 #include "osapi.h"
 #include "mqtt.h"
 #include "wifi.h"
@@ -42,7 +41,7 @@
 #include "upgrade.h"
 #include "espconn.h"
 #include "http_client.h"
-
+#include "uart.h"
 #define  PRE_VERSION  "1.0.1"
 #define  NEXT_VERSION "1.0.3"
 #define SPI_FLASH_SIZE_MAP 3
@@ -353,6 +352,7 @@ void user_init(void)
 {
 	
     uart_init_2(BIT_RATE_115200,BIT_RATE_74880);
+	//uart_init(BIT_RATE_115200,BIT_RATE_74880);	
     os_delay_us(60000);
 #if 1
     CFG_Load();
@@ -374,7 +374,9 @@ void user_init(void)
     MQTT_OnData(&mqttClient, mqttDataCb);
     WIFI_Connect(sysCfg.sta_ssid, sysCfg.sta_pwd, wifiConnectCb);
 #else	
-	system_init_done_cb(init_done_cb_init);
+	//system_init_done_cb(init_done_cb_init);
+	INFO("\r\nSystem started ...\r\n");
+	system_uart_swap();
 #endif
-    INFO("\r\nSystem started ...\r\n");
+    
 }

@@ -242,10 +242,11 @@ uart0_rx_intr_handler(void *para)
     /*IN NON-OS VERSION SDK, DO NOT USE "ICACHE_FLASH_ATTR" FUNCTIONS IN THE WHOLE HANDLER PROCESS*/
     /*ALL THE FUNCTIONS CALLED IN INTERRUPT HANDLER MUST BE DECLARED IN RAM */
     /*IF NOT , POST AN EVENT AND PROCESS IN SYSTEM TASK */
+	/*
     if (UART_FRM_ERR_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_FRM_ERR_INT_ST)) {
         DBG1("FRM_ERR\r\n");
         WRITE_PERI_REG(UART_INT_CLR(uart_no), UART_FRM_ERR_INT_CLR);
-    } else if (UART_RXFIFO_FULL_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_RXFIFO_FULL_INT_ST)) {
+    } else */if (UART_RXFIFO_FULL_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_RXFIFO_FULL_INT_ST)) {
         DBG("f");
         uart_rx_intr_disable(UART0);
         WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_FULL_INT_CLR);
@@ -359,6 +360,25 @@ uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
     os_timer_setfn(&buff_timer_t, uart_test_rx, NULL);    //a demo to process the data in uart rx buffer
     os_timer_arm(&buff_timer_t, 10, 1);
 #endif
+}
+/*test code*/
+void ICACHE_FLASH_ATTR
+uart_init_2(UartBautRate uart0_br, UartBautRate uart1_br)
+{
+    // rom use 74880 baut_rate, here reinitialize
+    UartDev.baut_rate = uart0_br;
+    UartDev.exist_parity = STICK_PARITY_EN;
+    UartDev.parity = EVEN_BITS;
+    UartDev.stop_bits = ONE_STOP_BIT;
+    UartDev.data_bits = EIGHT_BITS;
+
+    uart_config(UART0);
+    UartDev.baut_rate = uart1_br;
+    uart_config(UART1);
+    ETS_UART_INTR_ENABLE();
+
+    // install uart1 putc callback
+    os_install_putc1((void *)uart1_write_char);//print output at UART1
 }
 
 void ICACHE_FLASH_ATTR
@@ -816,24 +836,6 @@ UART_SetPrintPort(uint8_t uart_no)
 //========================================================
 
 
-/*test code*/
-void ICACHE_FLASH_ATTR
-uart_init_2(UartBautRate uart0_br, UartBautRate uart1_br)
-{
-    // rom use 74880 baut_rate, here reinitialize
-    UartDev.baut_rate = uart0_br;
-    UartDev.exist_parity = STICK_PARITY_EN;
-    UartDev.parity = EVEN_BITS;
-    UartDev.stop_bits = ONE_STOP_BIT;
-    UartDev.data_bits = EIGHT_BITS;
 
-    uart_config(UART0);
-    UartDev.baut_rate = uart1_br;
-    uart_config(UART1);
-    ETS_UART_INTR_ENABLE();
-
-    // install uart1 putc callback
-    os_install_putc1((void *)uart1_write_char);//print output at UART1
-}
 
 

@@ -2,7 +2,7 @@
  * user_wifi.c
  */
 
-#include "driver/uart.h"
+#include "../driver_lib/include/driver/uart.h"
 #include "ets_sys.h"
 #include "osapi.h"
 #include "user_interface.h"

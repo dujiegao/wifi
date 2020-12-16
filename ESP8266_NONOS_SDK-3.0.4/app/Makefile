@@ -24,7 +24,8 @@ SPECIAL_MKTARGETS=$(APP_MKTARGETS)
 SUBDIRS=    \
 	user    \
 	mqtt   \
-	modules  
+	modules \
+	driver
 
 endif # } PDIR
 
@@ -50,7 +51,8 @@ endif
 COMPONENTS_eagle.app.v6 = \
 	user/libuser.a  \
 	mqtt/libmqtt.a  \
-	modules/libmodules.a
+	modules/libmodules.a \
+	driver/libdriver.a
 
 LINKFLAGS_eagle.app.v6 = \
 	-L../lib        \
@@ -122,7 +124,7 @@ DDEFINES +=				\
 # Required for each makefile to inherit from the parent
 #
 
-INCLUDES := $(INCLUDES) -I $(PDIR)include -I $(PDIR)include/mqtt -I $(PDIR)include/modules
+INCLUDES := $(INCLUDES) -I $(PDIR)include -I $(PDIR)include/mqtt -I $(PDIR)include/modules -I $(PDIR)include/driver
 PDIR := ../$(PDIR)
 sinclude $(PDIR)Makefile
 
