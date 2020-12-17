@@ -142,6 +142,7 @@ void mqttPublishedCb(uint32_t *args)
 
 void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const char *data, uint32_t data_len)
 {
+	uint8_t i;
     char *topicBuf = (char*)os_zalloc(topic_len+1),
             *dataBuf = (char*)os_zalloc(data_len+1);
 
@@ -152,7 +153,8 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 
     os_memcpy(dataBuf, data, data_len);
     dataBuf[data_len] = 0;
-
+	for(i=0;i<data_len;i++)
+	uart_tx_one_char(UART0, dataBuf[i]);
     INFO("Receive topic: %s, data: %s \r\n", topicBuf, dataBuf);
     os_free(topicBuf);
     os_free(dataBuf);
