@@ -202,6 +202,7 @@ void UART_SetIntrEna(uint8 uart_no, uint32 ena_mask);
 void UART_SetPrintPort(uint8 uart_no);
 bool UART_CheckOutputFinished(uint8 uart_no, uint32 time_out_us);
 //==============================================
+uint16 rx_buff_get_data_len(void);
 
 #endif
 

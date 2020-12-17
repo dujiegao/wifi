@@ -15,7 +15,7 @@ typedef enum{
 
 /*DEFAULT CONFIGURATIONS*/
 
-#define MQTT_HOST            "192.168.11.181" // the IP address or domain name of your MQTT server or MQTT broker ,such as "mqtt.yourdomain.com"
+#define MQTT_HOST            "192.168.11.151" // the IP address or domain name of your MQTT server or MQTT broker ,such as "mqtt.yourdomain.com"
 #define MQTT_PORT            61613    // the listening port of your MQTT server or MQTT broker
 #define HTTP_PORT            8080
 #define HTTP_PATH            "http://192.168.11.181:8080/esp8266/newbin/"

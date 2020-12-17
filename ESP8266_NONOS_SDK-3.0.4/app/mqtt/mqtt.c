@@ -40,10 +40,9 @@
 #include "mqtt.h"
 #include "queue.h"
 #include "include/utils.h"
+#include "uart.h"
 
-#define MQTT_TASK_PRIO                2
-#define MQTT_TASK_QUEUE_SIZE        1
-#define MQTT_SEND_TIMOUT            5
+
 
 #ifndef QUEUE_BUFFER_SIZE
 #define QUEUE_BUFFER_SIZE             2048
@@ -53,6 +52,7 @@ unsigned char *default_certificate;
 unsigned int default_certificate_len = 0;
 unsigned char *default_private_key;
 unsigned int default_private_key_len = 0;
+extern MQTT_Client mqttClient;
 
 os_event_t mqtt_procTaskQueue[MQTT_TASK_QUEUE_SIZE];
 
@@ -687,6 +687,14 @@ MQTT_Task(os_event_t *e)
             break;
         }
         break;
+	case TRANS_RECV_DATA_FROM_UART:
+		dataLen = rx_buff_get_data_len();
+
+		rx_buff_deq(dataBuffer,dataLen);	// get data from uart buffer
+
+		MQTT_Publish(&mqttClient, "mqtt/topic/0", dataBuffer, dataLen, 0, 0);
+		INFO("uart send\r\n");
+		break;
     }
 }
 

@@ -352,7 +352,8 @@ void user_init(void)
 {
 	
     uart_init_2(BIT_RATE_115200,BIT_RATE_74880);
-	//uart_init(BIT_RATE_115200,BIT_RATE_74880);	
+	//uart_init(BIT_RATE_115200,BIT_RATE_74880);
+	system_uart_swap();
     os_delay_us(60000);
 #if 1
     CFG_Load();
@@ -373,10 +374,11 @@ void user_init(void)
     MQTT_OnPublished(&mqttClient, mqttPublishedCb);
     MQTT_OnData(&mqttClient, mqttDataCb);
     WIFI_Connect(sysCfg.sta_ssid, sysCfg.sta_pwd, wifiConnectCb);
+	
 #else	
 	//system_init_done_cb(init_done_cb_init);
 	INFO("\r\nSystem started ...\r\n");
-	system_uart_swap();
+	
 #endif
     
 }

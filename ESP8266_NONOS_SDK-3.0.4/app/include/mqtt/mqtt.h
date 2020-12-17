@@ -34,6 +34,10 @@
 #include "user_interface.h"
 
 #include "queue.h"
+#define MQTT_TASK_PRIO              2
+#define MQTT_TASK_QUEUE_SIZE        1
+#define MQTT_SEND_TIMOUT            5
+
 typedef struct mqtt_event_data_t
 {
   uint8_t type;
@@ -86,6 +90,7 @@ typedef enum {
 	MQTT_PUBLISHING,
 	MQTT_DELETING,
 	MQTT_DELETED,
+	TRANS_RECV_DATA_FROM_UART	
 } tConnState;
 
 typedef void (*MqttCallback)(uint32_t *args);
